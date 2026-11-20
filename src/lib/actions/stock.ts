@@ -74,10 +74,10 @@ async function fetchFromAlphaVantage(symbol: string): Promise<StockQuote> {
     throw new Error(`No data found for symbol "${symbol}".`);
   }
 
-  const price = parseFloat(quote['05. price']);
-  const previousClose = parseFloat(quote['08. previous close']);
-  const change = parseFloat(quote['09. change']);
-  const changePercent = parseFloat(quote['10. change percent'].replace('%', ''));
+  const price = Number.parseFloat(quote['05. price']);
+  const previousClose = Number.parseFloat(quote['08. previous close']);
+  const change = Number.parseFloat(quote['09. change']);
+  const changePercent = Number.parseFloat(quote['10. change percent'].replace('%', ''));
 
   return {
     symbol: quote['01. symbol'],
@@ -85,10 +85,10 @@ async function fetchFromAlphaVantage(symbol: string): Promise<StockQuote> {
     change,
     changePercent,
     previousClose,
-    open: parseFloat(quote['02. open']),
-    high: parseFloat(quote['03. high']),
-    low: parseFloat(quote['04. low']),
-    volume: parseInt(quote['06. volume'], 10),
+    open: Number.parseFloat(quote['02. open']),
+    high: Number.parseFloat(quote['03. high']),
+    low: Number.parseFloat(quote['04. low']),
+    volume: Number.parseInt(quote['06. volume'], 10),
     lastRefreshed: new Date().toISOString(),
   };
 }
@@ -116,20 +116,20 @@ function getMockData(symbol: string): StockQuote {
     currentPrice = mockPrices[symbol]! * (1 + changeFactor * direction);
   }
 
-  currentPrice = Math.max(0.01, parseFloat(currentPrice.toFixed(2)));
+  currentPrice = Math.max(0.01, Number.parseFloat(currentPrice.toFixed(2)));
 
   const previousClose =
     mockPrices[symbol] !== undefined
       ? mockPrices[symbol]!
-      : parseFloat((currentPrice * (1 + (Math.random() * 0.06 - 0.03))).toFixed(2));
+      : Number.parseFloat((currentPrice * (1 + (Math.random() * 0.06 - 0.03))).toFixed(2));
 
   mockPrices[symbol] = currentPrice;
 
-  const change = parseFloat((currentPrice - previousClose).toFixed(2));
-  const changePercent = parseFloat(((change / previousClose) * 100).toFixed(2));
-  const open = parseFloat((previousClose * (1 + (Math.random() * 0.02 - 0.01))).toFixed(2));
-  const high = parseFloat((Math.max(currentPrice, open) * (1 + Math.random() * 0.02)).toFixed(2));
-  const low = parseFloat((Math.min(currentPrice, open) * (1 - Math.random() * 0.02)).toFixed(2));
+  const change = Number.parseFloat((currentPrice - previousClose).toFixed(2));
+  const changePercent = Number.parseFloat(((change / previousClose) * 100).toFixed(2));
+  const open = Number.parseFloat((previousClose * (1 + (Math.random() * 0.02 - 0.01))).toFixed(2));
+  const high = Number.parseFloat((Math.max(currentPrice, open) * (1 + Math.random() * 0.02)).toFixed(2));
+  const low = Number.parseFloat((Math.min(currentPrice, open) * (1 - Math.random() * 0.02)).toFixed(2));
 
   return {
     symbol,

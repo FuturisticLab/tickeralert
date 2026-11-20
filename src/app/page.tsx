@@ -177,7 +177,7 @@ export default function HomePage() {
       const delay = staggerIndex * STAGGER_DELAY_MS;
       const startTimer = setTimeout(() => {
         const interval = setInterval(() => {
-          fetchTicker(symbol);
+          void fetchTicker(symbol);
         }, POLLING_INTERVAL_MS);
         pollingRefs.current.set(symbol, interval);
         startTimerRefs.current.delete(symbol);
@@ -217,7 +217,7 @@ export default function HomePage() {
       setWatchlist(initialMap);
       setSymbolOrder(saved);
       saved.forEach((sym, i) => {
-        fetchTicker(sym, true);
+        void fetchTicker(sym, true);
         startPolling(sym, i);
       });
     }
@@ -305,7 +305,7 @@ export default function HomePage() {
 
   const handleRefresh = useCallback(
     (symbol: string) => {
-      fetchTicker(symbol);
+      void fetchTicker(symbol);
     },
     [fetchTicker]
   );

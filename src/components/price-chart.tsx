@@ -26,7 +26,7 @@ function CustomTooltip({ active, payload }: any) {
     return (
       <div className="bg-card border border-border rounded-lg px-2.5 py-1.5 text-xs shadow-lg">
         <div className="font-mono font-semibold">${price?.toFixed(2)}</div>
-        {time && (
+        {Boolean(time) && (
           <div className="text-muted-foreground mt-0.5">
             {new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
           </div>

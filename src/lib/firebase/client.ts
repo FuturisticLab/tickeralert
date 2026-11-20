@@ -21,22 +21,21 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Prevent re-initialization in Next.js hot reloads
-let app: FirebaseApp;
-let db: Firestore;
-let auth: Auth;
-
 const isConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
 
-if (isConfigured) {
-  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]!;
-  db = getFirestore(app);
-  auth = getAuth(app);
-} else {
+if (!isConfigured) {
   console.warn(
     '[TickerAlert] Firebase client not configured. ' +
     'Set NEXT_PUBLIC_FIREBASE_* variables in .env.local to enable cloud features.'
   );
 }
+
+// Prevent re-initialization in Next.js hot reloads
+const app: FirebaseApp | undefined = isConfigured
+  ? (getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]!)
+  : undefined;
+
+const db: Firestore = (app ? getFirestore(app) : undefined) as Firestore;
+const auth: Auth = (app ? getAuth(app) : undefined) as Auth;
 
 export { db, auth, isConfigured };

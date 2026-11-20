@@ -28,8 +28,8 @@ function getMarketState(): MarketState {
 
   const etParts = new Intl.DateTimeFormat('en-US', etOptions).formatToParts(now);
   const weekday = etParts.find((p) => p.type === 'weekday')?.value ?? '';
-  const hour = parseInt(etParts.find((p) => p.type === 'hour')?.value ?? '0', 10);
-  const minute = parseInt(etParts.find((p) => p.type === 'minute')?.value ?? '0', 10);
+  const hour = Number.parseInt(etParts.find((p) => p.type === 'hour')?.value ?? '0', 10);
+  const minute = Number.parseInt(etParts.find((p) => p.type === 'minute')?.value ?? '0', 10);
 
   const isWeekend = weekday === 'Sat' || weekday === 'Sun';
   const timeInMinutes = hour * 60 + minute;
